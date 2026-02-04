@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexus Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'background': '#0f172a', // Slate 900
+              'sidebar': '#1e293b',    // Slate 800
+              'card': '#1e293b',       // Slate 800
+              'card-border': '#334155', // Slate 700
+              'text-primary': '#f8fafc', // Slate 50
+              'text-secondary': '#94a3b8', // Slate 400
+              'accent': '#38bdf8',       // Sky 500
+              'accent-hover': '#7dd3fc', // Sky 400
+            },
+          },
+        },
+      }
+    </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+    }
+    @keyframes fade-out-up {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-10px); }
+    }
+    @keyframes fade-in-down {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-out-up { animation: fade-out-up 0.3s ease-out forwards; }
+    .fade-in-down { animation: fade-in-down 0.3s ease-in forwards; }
+    .diagram-bg {
+        background-color: #0f172a;
+        background-image: radial-gradient(circle at 1px 1px, #334155 1px, transparent 0);
+        background-size: 20px 20px;
+    }
+    .unselectable {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+  </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "recharts": "https://aistudiocdn.com/recharts@^3.3.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^0.15.0",
+    "zustand": "https://aistudiocdn.com/zustand@^5.0.8",
+    "zustand/": "https://aistudiocdn.com/zustand@^5.0.8/",
+    "classcat": "https://aistudiocdn.com/classcat@^5.0.5",
+    "react-flow-renderer": "https://aistudiocdn.com/react-flow-renderer@^10.3.17",
+    "jszip": "https://cdn.skypack.dev/jszip"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-background text-text-primary">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

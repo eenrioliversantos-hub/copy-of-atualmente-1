@@ -51,6 +51,7 @@ const SecurityQualityPage = () => {
                     <div className="p-4 bg-sidebar rounded-lg border border-card-border"><p className="text-sm text-text-secondary mb-2">Testes de Integração</p><div className="flex items-center justify-between"><p className="text-xl font-bold">81%</p><Badge className="bg-green-500/10 text-green-400">88 Passaram</Badge></div></div>
                     <div className="p-4 bg-sidebar rounded-lg border border-card-border"><p className="text-sm text-text-secondary mb-2">Testes E2E</p><div className="flex items-center justify-between"><p className="text-xl font-bold">75%</p><Badge className="bg-red-500/10 text-red-400">2 Falharam</Badge></div></div>
                 </div>
+            </div>
           </TabsContent>
         </Tabs>
       </CardContent>

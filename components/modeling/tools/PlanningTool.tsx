@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Button } from '../../ui/Button';
 import Icon from '../../shared/Icon';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/Tabs';
@@ -9,12 +9,12 @@ import Step4Stack from '../steps/Step4Stack';
 import Step5Authentication from '../steps/Step5Authentication';
 import Step7Permissions from '../steps/Step7Permissions';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../ui/Accordion';
-// FIX: Added missing CardHeader, CardTitle, and CardContent imports to fix "Cannot find name" errors on line 194.
 import { Card, CardHeader, CardTitle, CardContent } from '../../ui/Card';
 import CodeBlock from '../../shared/CodeBlock';
 import UserEntityDataTool from './UserEntityDataTool';
 import EntityLifecycleTool from './EntityLifecycleTool';
 import DataStateArchitectureTool from './DataStateArchitectureTool';
+import ActionsAndRulesTool from './ActionsAndRulesTool'; // Importa o novo componente
 
 interface PlanningToolProps {
     initialData: any;
@@ -23,7 +23,6 @@ interface PlanningToolProps {
 }
 
 const PlanningTool: React.FC<PlanningToolProps> = ({ initialData, onComplete, onBack }) => {
-    // Inicialização robusta garantindo que se o initialData (blueprint) tiver dados, eles sejam usados
     const [data, setData] = useState(() => {
         const base = initialData || {};
         return {
@@ -34,14 +33,13 @@ const PlanningTool: React.FC<PlanningToolProps> = ({ initialData, onComplete, on
             step5: base.step5 || { providers: [] },
             step6: base.step6 || { userTypes: [] },
             planningEntities: base.planningEntities || [],
-            planningDataArchitecture: base.planningDataArchitecture || { growthEstimate: '25' }
+            planningDataArchitecture: base.planningDataArchitecture || { growthEstimate: '25' },
+            actionsAndRules: base.actionsAndRules || [], // Inicializa o estado para a nova guia
         };
     });
 
     const handleDataChange = useCallback((stepKey: string, stepData: any) => {
-        setData((prev: any) => {
-            return { ...prev, [stepKey]: stepData };
-        });
+        setData((prev: any) => ({ ...prev, [stepKey]: stepData }));
     }, []);
 
     const handleUserTypeDataChange = (id: string, userData: any) => {
@@ -52,21 +50,17 @@ const PlanningTool: React.FC<PlanningToolProps> = ({ initialData, onComplete, on
 
     const handleAddUserType = () => {
         const newUser = { id: Date.now().toString(), name: 'Novo Papel' };
-        const userTypes = data.step6?.userTypes || [];
-        const updatedUsers = [...userTypes, newUser];
-        handleDataChange('step6', { ...data.step6, userTypes: updatedUsers });
+        handleDataChange('step6', { ...data.step6, userTypes: [...(data.step6?.userTypes || []), newUser] });
     };
 
     const handleRemoveUserType = (id: string) => {
-        const userTypes = data.step6?.userTypes || [];
-        const updatedUsers = userTypes.filter((u: any) => u.id !== id);
+        const updatedUsers = (data.step6?.userTypes || []).filter((u: any) => u.id !== id);
         handleDataChange('step6', { ...data.step6, userTypes: updatedUsers });
     };
 
     const handleAddEntity = () => {
         const newEntity = { id: Date.now().toString(), singularName: 'Nova Entidade', attributes: [], transitions: [] };
-        const updatedEntities = [...(data.planningEntities || []), newEntity];
-        handleDataChange('planningEntities', updatedEntities);
+        handleDataChange('planningEntities', [...(data.planningEntities || []), newEntity]);
     };
 
     const handleRemoveEntity = (id: string) => {
@@ -125,10 +119,11 @@ ${data.step1?.description || 'N/A'}
                         
                         <TabsContent value="users_entities_data">
                              <Tabs defaultValue="users" className="w-full">
-                                <TabsList className="grid w-full grid-cols-3 bg-background border border-card-border rounded-md p-1">
+                                <TabsList className="grid w-full grid-cols-4 bg-background border border-card-border rounded-md p-1">
                                     <TabsTrigger value="users">Usuários & Fluxos</TabsTrigger>
                                     <TabsTrigger value="entities">Entidades & Ciclo de Vida</TabsTrigger>
                                     <TabsTrigger value="data_architecture">Dados & Arquitetura</TabsTrigger>
+                                    <TabsTrigger value="actions_rules">Ações & Regras</TabsTrigger>
                                 </TabsList>
                                 <TabsContent value="users" className="mt-6">
                                      <div className="space-y-4">
@@ -186,6 +181,12 @@ ${data.step1?.description || 'N/A'}
                                     <DataStateArchitectureTool
                                         data={data.planningDataArchitecture}
                                         setData={(d) => handleDataChange('planningDataArchitecture', d)}
+                                    />
+                                </TabsContent>
+                                <TabsContent value="actions_rules" className="mt-6">
+                                    <ActionsAndRulesTool 
+                                        data={data.actionsAndRules}
+                                        setData={(d) => handleDataChange('actionsAndRules', d)}
                                     />
                                 </TabsContent>
                             </Tabs>
